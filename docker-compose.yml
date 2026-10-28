@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  ticket-system:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      ADMIN_USERNAME: admin@it.local
+      ADMIN_PASSWORD: admin123
+      IT_TEAM_EMAILS: "it1@example.com,it2@example.com"
+      SECRET_KEY: change-this-secret
+      SMTP_SERVER: smtp.gmail.com
+      SMTP_PORT: 587
+      SMTP_USERNAME: your-email@gmail.com
+      SMTP_PASSWORD: your-app-password
+      SMTP_FROM_EMAIL: your-email@gmail.com
+    restart: unless-stopped

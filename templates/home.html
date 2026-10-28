@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container main-grid">
+    <section class="card">
+        <h1>Request IT Support</h1>
+        <p class="intro">Need help? Submit a ticket without creating an account. A valid email address is required.</p>
+
+        <form method="post" action="{{ url_for('submit_ticket') }}">
+            <div class="form-row two-columns">
+                <div>
+                    <label for="name">Full name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+
+            <div class="form-row two-columns">
+                <div>
+                    <label for="category">Category</label>
+                    <select id="category" name="category">
+                        <option>General Support</option>
+                        <option>Hardware</option>
+                        <option>Software</option>
+                        <option>Network</option>
+                        <option>Account Access</option>
+                        <option>Security</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="priority">Priority</label>
+                    <select id="priority" name="priority">
+                        <option>Low</option>
+                        <option selected>Medium</option>
+                        <option>High</option>
+                        <option>Critical</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" required>
+            </div>
+
+            <div>
+                <label for="description">Problem details</label>
+                <textarea id="description" name="description" rows="7" required></textarea>
+            </div>
+
+            <button type="submit" class="primary-btn">Submit Ticket</button>
+        </form>
+    </section>
+
+    <aside class="card">
+        <h2>Check an existing ticket</h2>
+        <form method="post" action="{{ url_for('search_ticket') }}">
+            <label for="ticket_number">Ticket number</label>
+            <input type="text" id="ticket_number" name="ticket_number" placeholder="IT-1001" required>
+            <button type="submit" class="secondary-btn">Search</button>
+        </form>
+
+        <div class="info-box">
+            <h3>How it works</h3>
+            <ul>
+                <li>Guests submit tickets without an account.</li>
+                <li>Email is required so support can reply.</li>
+                <li>Tickets are assigned a unique number automatically.</li>
+                <li>IT team receives email alerts for new tickets.</li>
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container admin-shell">
+    <div class="card admin-topbar">
+        <div>
+            <p class="eyebrow">Ticket</p>
+            <h1>{{ ticket.ticket_number }}</h1>
+        </div>
+        <a href="{{ url_for('admin_dashboard') }}" class="secondary-btn">Back to Queue</a>
+    </div>
+
+    <div class="info-grid">
+        <div class="card">
+            <h3>Customer</h3>
+            <p><strong>Name:</strong> {{ ticket.user_name }}</p>
+            <p><strong>Email:</strong> {{ ticket.user_email }}</p>
+            <p><strong>Category:</strong> {{ ticket.category }}</p>
+            <p><strong>Priority:</strong> {{ ticket.priority }}</p>
+            <p><strong>Created:</strong> {{ ticket.created_at }}</p>
+        </div>
+
+        <div class="card">
+            <h3>Update Ticket</h3>
+            <form method="post">
+                <div class="form-row two-columns">
+                    <div>
+                        <label for="status">Status</label>
+                        <select id="status" name="status">
+                            <option {% if ticket.status == 'Open' %}selected{% endif %}>Open</option>
+                            <option {% if ticket.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                            <option {% if ticket.status == 'Awaiting IT Response' %}selected{% endif %}>Awaiting IT Response</option>
+                            <option {% if ticket.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="priority">Priority</label>
+                        <select id="priority" name="priority">
+                            <option {% if ticket.priority == 'Low' %}selected{% endif %}>Low</option>
+                            <option {% if ticket.priority == 'Medium' %}selected{% endif %}>Medium</option>
+                            <option {% if ticket.priority == 'High' %}selected{% endif %}>High</option>
+                            <option {% if ticket.priority == 'Critical' %}selected{% endif %}>Critical</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label for="assigned_to">Assigned To</label>
+                    <input type="text" id="assigned_to" name="assigned_to" value="{{ ticket.assigned_to }}">
+                </div>
+                <div>
+                    <label for="reply_text">Reply to customer</label>
+                    <textarea id="reply_text" name="reply_text" rows="5" placeholder="Type a reply here..."></textarea>
+                </div>
+                <button type="submit" class="primary-btn">Save & Send</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Ticket Conversation</h3>
+        {% for message in ticket.messages %}
+            <div class="message {% if message.sender_role == 'admin' %}admin-message{% else %}user-message{% endif %}">
+                <div class="message-header">
+                    <strong>{{ message.sender_name }}</strong>
+                    <span>{{ message.sender_role }} · {{ message.created_at }}</span>
+                </div>
+                <p>{{ message.message }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

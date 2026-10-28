@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container admin-shell">
+    <div class="card admin-topbar">
+        <div>
+            <p class="eyebrow">Admin Dashboard</p>
+            <h1>IT Support Queue</h1>
+        </div>
+        <a href="{{ url_for('admin_logout') }}" class="secondary-btn">Logout</a>
+    </div>
+
+    <div class="card filters">
+        <form method="get">
+            <label for="status">Filter by status</label>
+            <select id="status" name="status" onchange="this.form.submit()">
+                <option value="all" {% if status_filter == 'all' %}selected{% endif %}>All</option>
+                <option value="Open" {% if status_filter == 'Open' %}selected{% endif %}>Open</option>
+                <option value="In Progress" {% if status_filter == 'In Progress' %}selected{% endif %}>In Progress</option>
+                <option value="Awaiting IT Response" {% if status_filter == 'Awaiting IT Response' %}selected{% endif %}>Awaiting IT Response</option>
+                <option value="Resolved" {% if status_filter == 'Resolved' %}selected{% endif %}>Resolved</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="ticket-list">
+        {% if tickets %}
+            {% for ticket in tickets %}
+                <a href="{{ url_for('admin_ticket_detail', ticket_number=ticket.ticket_number) }}" class="ticket-item card">
+                    <div class="ticket-row">
+                        <div>
+                            <p class="ticket-number">{{ ticket.ticket_number }}</p>
+                            <h3>{{ ticket.subject }}</h3>
+                        </div>
+                        <span class="status-badge {{ ticket.status.lower().replace(' ', '-') }}">{{ ticket.status }}</span>
+                    </div>
+                    <div class="meta-row">
+                        <span>{{ ticket.user_name }}</span>
+                        <span>{{ ticket.user_email }}</span>
+                        <span>{{ ticket.priority }}</span>
+                        <span>{{ ticket.created_at }}</span>
+                    </div>
+                </a>
+            {% endfor %}
+        {% else %}
+            <div class="card empty-state">
+                <p>No tickets found for this filter.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

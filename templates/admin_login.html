@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container admin-shell">
+    <div class="card admin-login-box">
+        <h1>Admin Login</h1>
+        <form method="post">
+            <div>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="{{ admin_username }}" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="primary-btn">Login</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
