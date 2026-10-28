@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket System</title>
+    <meta name="description" content="Public IT support ticket system interface for GitHub Pages." />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div class="brand">ticketsystem</div>
+      </header>
+
+      <main class="container">
+        <section class="hero">
+          <h1>Ticket System</h1>
+          <div class="divider"></div>
+        </section>
+
+        <section class="content-grid">
+          <div class="card form-card">
+            <h2>Submit a new ticket</h2>
+            <p class="lead">Guests can submit a ticket without creating an account. Email is required.</p>
+
+            <form id="ticketForm">
+              <div class="two-col">
+                <div class="field">
+                  <label for="userName">Full name</label>
+                  <input id="userName" name="userName" type="text" required />
+                </div>
+                <div class="field">
+                  <label for="userEmail">Email</label>
+                  <input id="userEmail" name="userEmail" type="email" required />
+                </div>
+              </div>
+
+              <div class="two-col">
+                <div class="field">
+                  <label for="category">Category</label>
+                  <select id="category" name="category">
+                    <option>General Support</option>
+                    <option>Hardware</option>
+                    <option>Software</option>
+                    <option>Network</option>
+                    <option>Account Access</option>
+                    <option>Security</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="priority">Priority</label>
+                  <select id="priority" name="priority">
+                    <option>Low</option>
+                    <option selected>Medium</option>
+                    <option>High</option>
+                    <option>Critical</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="subject">Subject</label>
+                <input id="subject" name="subject" type="text" required />
+              </div>
+
+              <div class="field">
+                <label for="description">Issue details</label>
+                <textarea id="description" name="description" rows="6" required></textarea>
+              </div>
+
+              <button type="submit" class="primary-btn">Submit Ticket</button>
+            </form>
+          </div>
+
+          <aside class="card side-panel">
+            <h2>Search ticket</h2>
+            <form id="ticketSearchForm" class="search-form">
+              <label for="searchTicketNumber">Ticket number</label>
+              <input id="searchTicketNumber" type="text" placeholder="IT-1001" />
+              <button type="submit" class="secondary-btn">Search</button>
+            </form>
+
+            <div class="info-box">
+              <h3>How it works</h3>
+              <ul>
+                <li>Guest users can submit without login.</li>
+                <li>Email is required for updates and replies.</li>
+                <li>Ticket numbers are generated automatically.</li>
+                <li>IT team receives the ticket in their inbox.</li>
+              </ul>
+            </div>
+
+            <div class="admin-box">
+              <h3>IT Admin</h3>
+              <button id="openAdminBtn" class="secondary-btn full-width" type="button">Open admin panel</button>
+            </div>
+          </aside>
+        </section>
+
+        <section id="publicTicketView" class="card hidden">
+          <div class="ticket-header-row">
+            <div>
+              <p class="eyebrow">Ticket created</p>
+              <h2 id="createdTicketNumber">IT-1001</h2>
+            </div>
+            <span id="createdTicketStatus" class="status-badge open">Open</span>
+          </div>
+          <p id="createdTicketMessage" class="success-text"></p>
+        </section>
+
+        <section id="ticketDetailView" class="card hidden">
+          <div class="ticket-header-row">
+            <div>
+              <p class="eyebrow">Ticket details</p>
+              <h2 id="detailTicketNumber">IT-1001</h2>
+            </div>
+            <span id="detailStatus" class="status-badge open">Open</span>
+          </div>
+
+          <div class="detail-grid">
+            <div class="detail-panel">
+              <h3>Customer info</h3>
+              <p><strong>Name:</strong> <span id="detailCustomerName"></span></p>
+              <p><strong>Email:</strong> <span id="detailCustomerEmail"></span></p>
+              <p><strong>Category:</strong> <span id="detailCategory"></span></p>
+              <p><strong>Priority:</strong> <span id="detailPriority"></span></p>
+            </div>
+
+            <div class="detail-panel">
+              <h3>Ticket summary</h3>
+              <p><strong>Subject:</strong> <span id="detailSubject"></span></p>
+              <p id="detailDescription"></p>
+            </div>
+          </div>
+
+          <div class="conversation-box">
+            <h3>Conversation</h3>
+            <div id="ticketConversation" class="conversation-list"></div>
+          </div>
+
+          <div class="reply-box">
+            <h3>Reply to IT</h3>
+            <form id="userReplyForm">
+              <div class="two-col">
+                <div class="field">
+                  <label for="replyName">Your name</label>
+                  <input id="replyName" type="text" required />
+                </div>
+                <div class="field">
+                  <label for="replyEmail">Your email</label>
+                  <input id="replyEmail" type="email" required />
+                </div>
+              </div>
+              <div class="field">
+                <label for="replyMessage">Message</label>
+                <textarea id="replyMessage" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="primary-btn">Send update</button>
+            </form>
+          </div>
+        </section>
+
+        <section id="adminPanel" class="card hidden admin-panel">
+          <div class="admin-header">
+            <div>
+              <p class="eyebrow">Admin portal</p>
+              <h2>IT Support Queue</h2>
+            </div>
+            <button id="logoutAdminBtn" class="secondary-btn" type="button">Logout</button>
+          </div>
+
+          <div id="adminLoginView" class="login-form-wrap">
+            <form id="adminLoginForm">
+              <div class="field">
+                <label for="adminUsername">Admin email</label>
+                <input id="adminUsername" type="email" value="admin@it.local" required />
+              </div>
+              <div class="field">
+                <label for="adminPassword">Password</label>
+                <input id="adminPassword" type="password" required />
+              </div>
+              <button type="submit" class="primary-btn">Login</button>
+            </form>
+          </div>
+
+          <div id="adminDashboardView" class="hidden">
+            <div class="table-topbar">
+              <h3>Open tickets</h3>
+              <select id="statusFilter">
+                <option value="all">All</option>
+                <option value="Open">Open</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Awaiting IT Response">Awaiting IT Response</option>
+                <option value="Resolved">Resolved</option>
+              </select>
+            </div>
+
+            <div id="adminTicketTable" class="ticket-table"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
